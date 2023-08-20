@@ -87,7 +87,7 @@ const openHamburger = () =>{
 
 const ratingTesti = [
     {author: "- Surya Eldanta",
-     quote: "Keren banget jasanya!!",
+     quote: "Keren banget jasanya!",
      image: "https://images.unsplash.com/photo-1590086782792-42dd2350140d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
      rating: 5,
     },
