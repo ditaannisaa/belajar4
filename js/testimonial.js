@@ -173,7 +173,7 @@ async function filterTesti(rating) {
     try{
     
     const response = await testimonials
-    // console.log(response)
+    console.log(response)
     
     let testimoniHTML = "";
 
