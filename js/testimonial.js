@@ -85,42 +85,69 @@ const openHamburger = () =>{
 
 // document.getElementById("testimonial").innerHTML = testiHTML;
 
-const ratingTesti = [
-    {author: "- Surya Eldanta",
-     quote: "Keren banget jasanya!",
-     image: "https://images.unsplash.com/photo-1590086782792-42dd2350140d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
-     rating: 5,
-    },
+// const ratingTesti = [
+//     {author: "- Surya Eldanta",
+//      quote: "Keren banget jasanya!",
+//      image: "https://images.unsplash.com/photo-1590086782792-42dd2350140d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
+//      rating: 5,
+//     },
 
-    {author: "- Fari Lesmana",
-     quote: "Keren lah pokoknya",
-     image: "https://images.unsplash.com/photo-1614289371518-722f2615943d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
-     rating: 5,
-    },
+//     {author: "- Fari Lesmana",
+//      quote: "Keren lah pokoknya",
+//      image: "https://images.unsplash.com/photo-1614289371518-722f2615943d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
+//      rating: 5,
+//     },
 
-    {author: "- Sarah Leuwi",
-     quote: "Mantap sekali!",
-     image: "https://images.unsplash.com/photo-1614644147798-f8c0fc9da7f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=464&q=80",
-     rating: 3,
-    },
+//     {author: "- Sarah Leuwi",
+//      quote: "Mantap sekali!",
+//      image: "https://images.unsplash.com/photo-1614644147798-f8c0fc9da7f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=464&q=80",
+//      rating: 3,
+//     },
 
-    {author: "- Malik Adam",
-     quote: "Cukup.",
-     image: "https://images.unsplash.com/photo-1616776005756-4dca36124bf9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
-     rating: 4,
-    },
+//     {author: "- Malik Adam",
+//      quote: "Cukup.",
+//      image: "https://images.unsplash.com/photo-1616776005756-4dca36124bf9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
+//      rating: 4,
+//     },
 
-    {author: "- Tiara",
-     quote: "Biasa.",
-     image: "https://images.unsplash.com/photo-1611175140153-bfd26338ff0d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=464&q=80",
-     rating: 2,
-    },
-];
+//     {author: "- Tiara",
+//      quote: "Biasa.",
+//      image: "https://images.unsplash.com/photo-1611175140153-bfd26338ff0d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=464&q=80",
+//      rating: 2,
+//     },
+// ];
 
-function allTesti (){
+const testimonials = new Promise((resolve, reject) =>{
+    const testimoni = new XMLHttpRequest()
+
+    testimoni.open("GET", "https://api.npoint.io/c9b91db93112ac3ca079", true)
+    
+    testimoni.onload = function() {
+        if (testimoni.status == 200){
+            resolve (JSON.parse(testimoni.response))
+        } else {
+            reject ("Error")
+        }
+    }
+
+    testimoni.onerror = function() {
+        reject("Network Error")
+    }
+    
+    testimoni.send()
+
+})
+
+
+async function allTesti() {
+    try{
+    
+    const response = await testimonials;
+    // console.log(response)
+
     let testimoniHTML = "";
 
-    ratingTesti.forEach(function (item){
+    response.forEach(function(item) {
         testimoniHTML += `
         <div class="testi">
             <img src="${item.image}" >
@@ -133,12 +160,24 @@ function allTesti (){
     });
 
     document.getElementById("testimonial").innerHTML = testimoniHTML;
-}
+    }
+    catch(error) {
+        console.log(error)
+    }
 
-function filterTesti(rating){
+    
+}
+    allTesti()
+
+async function filterTesti(rating) {
+    try{
+    
+    const response = await testimonials
+    // console.log(response)
+    
     let testimoniHTML = "";
 
-    const testiFiltered = ratingTesti.filter(function (item){
+    const testiFiltered = response.filter(function(item) {
         return item.rating === rating;
     })
 
@@ -157,4 +196,7 @@ function filterTesti(rating){
     })
     }
     document.getElementById("testimonial").innerHTML = testimoniHTML;
+    } catch(error) {
+        console.log(error)
+    }
 }
